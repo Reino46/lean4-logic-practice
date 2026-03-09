@@ -141,3 +141,20 @@ example : ((p ∨ q) → r) ↔ (p → r) ∧ (q → r) :=
       fun hpq : p ∨ q =>
         show r from Or.elim hpq hpr hqr
     )
+
+example : ¬(p ∨ q) ↔ ¬p ∧ ¬q :=
+  Iff.intro
+    (fun hnpq : p ∨ q → False =>
+      show ¬p ∧ ¬q from And.intro (
+        fun hp : p =>
+          show False from hnpq (Or.inl hp)
+      ) (
+        fun hq : q =>
+          show False from hnpq (Or.inr hq)
+      )
+    )
+    (fun hnpnq : ¬p ∧ ¬q =>
+      have hnp : ¬p := hnpnq.left
+      have hnq : ¬q := hnpnq.right
+      fun hpq : p ∨ q =>
+        show False from Or.elim hpq hnp hnq)
