@@ -169,3 +169,9 @@ example : ¬p ∨ ¬q → ¬(p ∧ q) :=
       (fun hnq : ¬q =>
         have hq : q := hpq.right
         show False from hnq hq)
+
+example : ¬(p ∧ ¬p) :=
+  fun hpnp : p ∧ ¬p =>
+    have hp : p := hpnp.left
+    have hnp : ¬p := hpnp.right
+    show False from hnp hp
